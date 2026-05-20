@@ -77,6 +77,10 @@ export class ClaudeProviderAuth implements IProviderAuth {
    * Checks Claude credentials in the same priority order used by Claude Code.
    */
   private async checkCredentials(): Promise<ClaudeCredentialsStatus> {
+    if (process.env.CLAUDE_CODE_OAUTH_TOKEN?.trim()) {
+      return { authenticated: true, email: 'OAuth token env', method: 'oauth_env' };
+    }
+
     if (process.env.ANTHROPIC_API_KEY?.trim()) {
       return { authenticated: true, email: 'API Key Auth', method: 'api_key' };
     }
