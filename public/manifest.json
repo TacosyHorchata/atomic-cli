@@ -1,7 +1,7 @@
 {
-  "name": "CloudCLI UI",
-  "short_name": "CloudCLI UI",
-  "description": "CloudCLI UI web application",
+  "name": "Atomic CLI",
+  "short_name": "Atomic CLI",
+  "description": "Atomic CLI cloud agent web shell",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
