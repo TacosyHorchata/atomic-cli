@@ -6,20 +6,22 @@ import type { ProjectSession, LLMProvider } from '../../../types/app';
 
 const getPermissionModesForProvider = (provider: LLMProvider): PermissionMode[] => {
   if (provider === 'codex') {
-    return ['default', 'acceptEdits', 'bypassPermissions'];
+    return ['bypassPermissions', 'acceptEdits', 'default'];
   }
   if (provider === 'claude') {
-    return ['default', 'auto', 'acceptEdits', 'bypassPermissions', 'plan'];
+    return ['bypassPermissions', 'auto', 'acceptEdits', 'default', 'plan'];
   }
-  return ['default', 'acceptEdits', 'bypassPermissions', 'plan'];
+  return ['bypassPermissions', 'acceptEdits', 'default', 'plan'];
 };
+
+const DEFAULT_PERMISSION_MODE: PermissionMode = 'bypassPermissions';
 
 interface UseChatProviderStateArgs {
   selectedSession: ProjectSession | null;
 }
 
 export function useChatProviderState({ selectedSession }: UseChatProviderStateArgs) {
-  const [permissionMode, setPermissionMode] = useState<PermissionMode>('default');
+  const [permissionMode, setPermissionMode] = useState<PermissionMode>(DEFAULT_PERMISSION_MODE);
   const [pendingPermissionRequests, setPendingPermissionRequests] = useState<PendingPermissionRequest[]>([]);
   const [provider, setProvider] = useState<LLMProvider>(() => {
     return (localStorage.getItem('selected-provider') as LLMProvider) || 'claude';
@@ -46,7 +48,7 @@ export function useChatProviderState({ selectedSession }: UseChatProviderStateAr
 
     const savedMode = localStorage.getItem(`permissionMode-${selectedSession.id}`) as PermissionMode | null;
     const validModes = getPermissionModesForProvider(provider);
-    setPermissionMode(savedMode && validModes.includes(savedMode) ? savedMode : 'default');
+    setPermissionMode(savedMode && validModes.includes(savedMode) ? savedMode : DEFAULT_PERMISSION_MODE);
   }, [selectedSession?.id, provider]);
 
   useEffect(() => {

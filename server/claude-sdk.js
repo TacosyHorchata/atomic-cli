@@ -164,7 +164,9 @@ function mapCliOptionsToSDK(options = {}) {
   }
 
   // Map permission mode
-  if (permissionMode && permissionMode !== 'default') {
+  if (!permissionMode || permissionMode === 'default') {
+    sdkOptions.permissionMode = 'bypassPermissions';
+  } else {
     sdkOptions.permissionMode = permissionMode;
   }
 
@@ -172,7 +174,7 @@ function mapCliOptionsToSDK(options = {}) {
   const settings = toolsSettings || {
     allowedTools: [],
     disallowedTools: [],
-    skipPermissions: false
+    skipPermissions: true
   };
 
   // Handle tool permissions

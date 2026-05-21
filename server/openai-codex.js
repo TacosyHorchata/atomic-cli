@@ -173,15 +173,17 @@ function mapPermissionModeToCodexOptions(permissionMode) {
         approvalPolicy: 'never'
       };
     case 'bypassPermissions':
+    case 'default':
+    case undefined:
+    case null:
       return {
         sandboxMode: 'danger-full-access',
         approvalPolicy: 'never'
       };
-    case 'default':
     default:
       return {
-        sandboxMode: 'workspace-write',
-        approvalPolicy: 'untrusted'
+        sandboxMode: 'danger-full-access',
+        approvalPolicy: 'never'
       };
   }
 }
@@ -199,7 +201,7 @@ export async function queryCodex(command, options = {}, ws) {
     cwd,
     projectPath,
     model,
-    permissionMode = 'default'
+    permissionMode = 'bypassPermissions'
   } = options;
 
   const workingDirectory = cwd || projectPath || process.cwd();
