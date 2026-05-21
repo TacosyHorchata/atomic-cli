@@ -108,14 +108,15 @@ function buildShellCommand(
   }
 
   if (provider === 'codex') {
-    const yoloFlag = '--dangerously-bypass-approvals-and-sandbox';
+    const codexYoloCommand =
+      'codex -c check_for_update_on_startup=false --dangerously-bypass-approvals-and-sandbox';
     if (hasSession && sessionId) {
       if (os.platform() === 'win32') {
-        return `codex ${yoloFlag} resume "${sessionId}"; if ($LASTEXITCODE -ne 0) { codex ${yoloFlag} }`;
+        return `${codexYoloCommand} resume "${sessionId}"; if ($LASTEXITCODE -ne 0) { ${codexYoloCommand} }`;
       }
-      return `codex ${yoloFlag} resume "${sessionId}" || codex ${yoloFlag}`;
+      return `${codexYoloCommand} resume "${sessionId}" || ${codexYoloCommand}`;
     }
-    return `codex ${yoloFlag}`;
+    return codexYoloCommand;
   }
 
   if (provider === 'gemini') {
