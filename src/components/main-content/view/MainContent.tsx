@@ -160,7 +160,8 @@ function MainContent({
             <div className="h-full w-full overflow-hidden">
               <StandaloneShell
                 project={selectedProject}
-                session={selectedSession}
+                session={null}
+                isPlainShell
                 showHeader={false}
                 isActive={activeTab === 'shell'}
               />

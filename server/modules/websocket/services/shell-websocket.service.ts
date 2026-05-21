@@ -93,7 +93,11 @@ function buildShellCommand(
     provider === 'plain-shell';
 
   if (isPlainShell) {
-    return initialCommand;
+    if (initialCommand) {
+      return initialCommand;
+    }
+
+    return os.platform() === 'win32' ? 'powershell.exe -NoLogo' : 'bash -l';
   }
 
   if (provider === 'cursor') {
