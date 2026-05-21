@@ -108,13 +108,14 @@ function buildShellCommand(
   }
 
   if (provider === 'codex') {
+    const yoloFlag = '--dangerously-bypass-approvals-and-sandbox';
     if (hasSession && sessionId) {
       if (os.platform() === 'win32') {
-        return `codex resume "${sessionId}"; if ($LASTEXITCODE -ne 0) { codex }`;
+        return `codex ${yoloFlag} resume "${sessionId}"; if ($LASTEXITCODE -ne 0) { codex ${yoloFlag} }`;
       }
-      return `codex resume "${sessionId}" || codex`;
+      return `codex ${yoloFlag} resume "${sessionId}" || codex ${yoloFlag}`;
     }
-    return 'codex';
+    return `codex ${yoloFlag}`;
   }
 
   if (provider === 'gemini') {
